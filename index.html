@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Typing</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <p id="target">始めるにはクリック</p>
+  <p class="info">
+    正しく打ったキーの数： <span id="score">0</span>
+    ミスタイプ： <span id="miss">0</span>
+    時間: <span id="timer">0</span>
+  </p>
+  <script src="js/main.js"></script>
+
+
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load('current', {'packages':['gauge']});
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+
+      var data = google.visualization.arrayToDataTable([
+        ['Label', 'Value'],
+        ['時間', 10],
+      ]);
+
+      var options = {
+        width: 400, height: 400,
+        max: 10,
+        redFrom: 0, redTo: 2,
+        yellowFrom: 2, yellowTo: 4,
+        minorTicks: 2
+      };
+
+      var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
+
+      chart.draw(data, options);
+
+      const timeLimit = 10 * 1000;
+      let startTime;
+
+      window.addEventListener('click', () => {
+        startTime = Date.now();
+        const timeoutId = setInterval(() => {
+          const timeLeft = startTime + timeLimit - Date.now();
+          if(timeLeft < 0){
+            clearInterval(timeoutId);
+          }else {
+            data.setValue(0, 1, Math.round(timeLeft / 1000));
+          }
+          chart.draw(data, options);
+        }, 100);
+      });
+
+    }
+  </script>
+  <div id="chart_div"></div>
+</body>
+</html>
