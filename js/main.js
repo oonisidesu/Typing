@@ -15,7 +15,7 @@
   let loc;
   let score;
   let miss;
-  const timeLimit = 10.5 * 1000;
+  const timeLimit = 30.5 * 1000;
   let startTime;
   let isPlaying = false;
 
@@ -52,7 +52,7 @@
        timerLabel.textContent = '0.00';
        setTimeout(() => {
           showResult();
-       },100);
+       }, 100);
 
        timerLabel.textContent = '0.00';
        target.textContent = 'もう一度する時はクリック';
